@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContactsThunk } from '../../redux/operations';
+import { fetchContactsThunk } from '../../redux/contacts/operations';
 import {
   selectContacts,
   selectError,
   selectIsLoading,
-} from '../../redux/selectors';
+} from '../../redux/contacts/selectors';
 import {
   Container,
   StyledHeading,

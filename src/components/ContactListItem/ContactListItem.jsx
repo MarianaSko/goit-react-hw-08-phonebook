@@ -4,7 +4,7 @@ import {
   StyledBtn,
   StyledSpan,
 } from './ContsctListItem.styled';
-import { deleteContactsThunk } from '../../redux/operations';
+import { deleteContactsThunk } from '../../redux/contacts/operations';
 
 export const ContactListItem = ({ name, phone, id }) => {
   const dispatch = useDispatch();

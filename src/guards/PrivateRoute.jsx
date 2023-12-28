@@ -4,7 +4,6 @@ import { selectIsLoggedIn } from '../redux/auth/selectors';
 
 export const PrivateRoute = ({ children }) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  console.log(isLoggedIn);
   if (isLoggedIn) {
     return children;
   }

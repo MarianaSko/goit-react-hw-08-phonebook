@@ -40,7 +40,6 @@ const slice = createSlice({
             .addMatcher(isAnyOf(signUpThunk.rejected, loginThunk.rejected, logoutThunk.rejected), (state, { payload }) => {
                 state.isLoading = false;
                 state.error = payload
-                console.log(payload);
             })
             .addMatcher(isAnyOf(signUpThunk.pending, loginThunk.pending, logoutThunk.pending), state => {
                 state.isLoading = true

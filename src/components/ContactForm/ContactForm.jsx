@@ -6,8 +6,8 @@ import {
   StyledInput,
   StyledLabel,
 } from './ContactForm.styled';
-import { addContactsThunk } from '../../redux/operations';
-import { selectContacts } from '../../redux/selectors';
+import { addContactsThunk } from '../../redux/contacts/operations';
+import { selectContacts } from '../../redux/contacts/selectors';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();

@@ -2,21 +2,17 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { signUpThunk } from '../../redux/auth/operations';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Container } from './SignUpPage.styled';
 
 const SignUpPage = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const submit = data => {
-    console.log(data);
     dispatch(signUpThunk(data))
       .unwrap()
       .then(res => {
-        navigate('/contacts');
         toast.success(`Welcome ${res.user.name}`);
       });
   };
