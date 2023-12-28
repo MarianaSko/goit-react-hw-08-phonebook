@@ -1,48 +1,64 @@
-import { ContactForm } from '../ContactForm/ContactForm';
-import { Filter } from '../Filter/Filter';
-import { ContactList } from '../ContactList/ContactList';
-import {
-  Container,
-  StyledMessage,
-  StyledMainHeading,
-  StyledHeading,
-} from './App.styled';
+import HomePage from 'pages/HomePage/HomePage';
+import LoginPage from 'pages/LoginPage/LoginPage';
+import SignUpPage from 'pages/SignUpPage/SignUpPage';
+import { Route, Routes } from 'react-router-dom';
+import PhonebookPage from 'pages/PhonebookPage/PhonebookPage';
+import Layout from 'components/Layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchContactsThunk } from '../../redux/operations';
-import {
-  selectContacts,
-  selectError,
-  selectIsLoading,
-} from '../../redux/selectors';
+import { refreshThunk } from '../../redux/auth/operations';
+import { PrivateRoute } from '../../guards/PrivateRoute';
+import { PublicRoute } from '../../guards/PublicRoute';
+import { selectError, selectIsRefreshing } from '../../redux/auth/selectors';
+import Loader from 'components/Loader/Loader';
+import { toast } from 'react-toastify';
+import NotFound from 'components/NotFound/NotFound';
 
 export const App = () => {
-  const contacts = useSelector(selectContacts);
-  const error = useSelector(selectError);
-  const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
+  const error = useSelector(selectError);
 
   useEffect(() => {
-    dispatch(fetchContactsThunk());
-  }, [dispatch]);
-
-  return (
-    <Container>
-      <StyledMainHeading>Phonebook</StyledMainHeading>
-      <ContactForm />
-      <StyledHeading>Contacts</StyledHeading>
-      {contacts?.length ? (
-        <div>
-          <Filter />
-          <ContactList />
-        </div>
-      ) : (
-        <StyledMessage>
-          You don't have any contacts in your phonebook yet.
-        </StyledMessage>
-      )}
-      {isLoading && <StyledMessage>Loading...</StyledMessage>}
-      {error && <StyledMessage>{error}</StyledMessage>}
-    </Container>
+    dispatch(refreshThunk());
+    if (error) {
+      toast(error);
+    }
+  }, [dispatch, error]);
+  return isRefreshing ? (
+    <Loader />
+  ) : (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />}></Route>
+          <Route
+            path="login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          ></Route>
+          <Route
+            path="register"
+            element={
+              <PublicRoute>
+                <SignUpPage />
+              </PublicRoute>
+            }
+          ></Route>
+          <Route
+            path="contacts"
+            element={
+              <PrivateRoute>
+                <PhonebookPage />
+              </PrivateRoute>
+            }
+          ></Route>
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 };
