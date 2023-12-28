@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf, isRejected } from "@reduxjs/toolkit"
+import { createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { loginThunk, logoutThunk, refreshThunk, signUpThunk } from "./operations"
 
 const initialState = {
