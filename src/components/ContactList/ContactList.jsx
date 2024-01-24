@@ -8,14 +8,15 @@ export const ContactList = () => {
   const contacts = useSelector(selectContacts);
 
   const getFilteredContacts = () => {
+    console.log(contacts);
     return contacts.filter(({ name }) =>
       name.toLowerCase().includes(filter.toLowerCase())
     );
   };
   return (
     <StyledList>
-      {getFilteredContacts().map(({ id, name, phone }) => (
-        <ContactListItem key={id} id={id} name={name} phone={phone} />
+      {getFilteredContacts().map(({ id, name, number }) => (
+        <ContactListItem key={id} id={id} name={name} phone={number} />
       ))}
     </StyledList>
   );
